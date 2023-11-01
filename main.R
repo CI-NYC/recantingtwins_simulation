@@ -19,19 +19,20 @@ bias_confounder = 0
 data = sim_data(n=5000, option = 1, option_zero = 2)$sim_data
 data = data.frame(apply(data, 2, as.numeric))
 
-attr_models = c("mean", "glm", "lightgbm", "earth")
+attr_models_outcome = c("mean", "glm", "earth", "lightgbm")
+attr_models_multiclass = c("multinom", "lightgbm")
 
 params <- .recanting_twins_control(#.g_folds = 10,
-  .g_learners = attr_models,
-  .m_learners = attr_models,
+  .g_learners = attr_models_outcome,
+  .m_learners = attr_models_multiclass,
   #.m_folds = 10,
-  .pmz_learners = attr_models,
+  .pmz_learners = attr_models_outcome,
   #.pmz_folds = 10,
-  .pz_learners = attr_models,
+  .pz_learners = attr_models_multiclass,
   #.pz_folds = 10,
-  .pm1_learners = attr_models,
+  .pm1_learners = attr_models_multiclass,
   #.pm1_folds = 10,
-  .pm2_learners = attr_models)
+  .pm2_learners = attr_models_multiclass)
 #.pm2_folds = 10)
 
 res = recanting_twins(data, c("X_1", "X_2", "X_3"), "A", "Z", "M", "y", "binomial", .control = params)
